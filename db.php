@@ -23,7 +23,7 @@ if (!function_exists('insertCacheRequest')) {
     function insertCacheRequest($idTile)
     {
 
-        $sql = "INSERT INTO " . PREFISSO_TAVOLA . "_CACHE_REQUEST (idTile) VALUES (:idTile )";
+        $sql = "INSERT INTO " . PREFISSO_TAVOLA . "_cache_request (idTile) VALUES (:idTile )";
         $conn = apriConnessione();
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':idTile', $idTile);
@@ -36,7 +36,7 @@ if (!function_exists('insertOsmRequest')) {
     function insertOsmRequest($idTile)
     {
 
-        $sql = "INSERT INTO " . PREFISSO_TAVOLA . "_OSM_REQUEST (idTile) VALUES (:idTile )";
+        $sql = "INSERT INTO " . PREFISSO_TAVOLA . "_osm_request (idTile) VALUES (:idTile )";
         $conn = apriConnessione();
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':idTile', $idTile);
@@ -72,7 +72,7 @@ if (!function_exists('getNumberOsmRequestLastHour')) {
 if (!function_exists('insertCacheRequestStoLastDay')) {
     function insertCacheRequestStoLastDay()
     {
-        $sql = "INSERT INTO " . PREFISSO_TAVOLA . "_CACHE_REQUEST_STO SELECT * FROM " . PREFISSO_TAVOLA . "_CACHE_REQUEST WHERE DATE(eventDate) = DATE( NOW() - INTERVAL 1 DAY)";
+        $sql = "INSERT INTO " . PREFISSO_TAVOLA . "_cache_request_STO SELECT * FROM " . PREFISSO_TAVOLA . "_cache_request WHERE DATE(eventDate) = DATE( NOW() - INTERVAL 1 DAY)";
         $conn = apriConnessione();
         $stmt = $conn->prepare($sql);
         $stmt->execute();
@@ -83,7 +83,7 @@ if (!function_exists('insertCacheRequestStoLastDay')) {
 if (!function_exists('deleteCacheRequestLastDay')) {
     function deleteCacheRequestLastDay()
     {
-        $sql = "DELETE FROM " . PREFISSO_TAVOLA . "_CACHE_REQUEST WHERE DATE(eventDate) = DATE( NOW() - INTERVAL 1 DAY)";
+        $sql = "DELETE FROM " . PREFISSO_TAVOLA . "_cache_request WHERE DATE(eventDate) = DATE( NOW() - INTERVAL 1 DAY)";
         $conn = apriConnessione();
         $stmt = $conn->prepare($sql);
         $stmt->execute();
