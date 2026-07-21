@@ -126,3 +126,53 @@ if (!function_exists('getNumberOsmRequestTotal')) {
         return $result[0]["numero"];
     }
 }
+
+if (!function_exists('insertEvent')) {
+    function insertEvent($url, $eventType)
+    {
+        $data = new DateTime();
+        $minuti = (int)$data->format('i');
+
+        if ($minuti < 30) {
+            $data->setTime((int)$data->format('H'), 0, 0);
+        } else {
+            $data->setTime((int)$data->format('H'), 30, 0);
+        }
+
+        $eventDate = $data->format('Y-m-d H:i:s');
+        $sql = "INSERT INTO " . PREFISSO_TAVOLA . "_events (url, eventType, eventDate ) VALUES ( :url, :eventType, :eventDate)";
+        $conn = apriConnessione();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':url', $url);
+        $stmt->bindParam(':eventType', $eventType);
+        $stmt->bindParam(':eventDate', $eventDate);
+        $stmt->execute();
+        chiudiConnessione($conn);
+    }
+}
+
+
+if (!function_exists('getNumberEventsLastHour')) {
+    function getNumberEventsLastHour()
+    {
+        $conn = apriConnessione();
+        $stmt = $conn->prepare("SELECT COUNT(*) as numero FROM " . PREFISSO_TAVOLA . "_events WHERE TIMESTAMPDIFF(MINUTE, eventDate, NOW()) < 60" );
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        chiudiConnessione($conn);
+        return $result[0]["numero"];
+    }
+}
+
+
+if (!function_exists('getNumberEventsToday')) {
+    function getNumberEventsToday()
+    {
+        $conn = apriConnessione();
+        $stmt = $conn->prepare( "SELECT COUNT(*) as numero FROM " . PREFISSO_TAVOLA . "_events WHERE DATE(eventDate) = DATE(NOW())" );
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+        chiudiConnessione($conn);
+        return $result[0]["numero"];
+    }
+}

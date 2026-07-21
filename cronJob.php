@@ -15,20 +15,25 @@ $numberOsmRequestLastHour = getNumberOsmRequestLastHour();
 $numberCacheRequestToday = getNumberCacheRequestToday();
 $numberOsmRequestToday = getNumberOsmRequestToday();
 
+$numberEventsLastHour = getNumberEventsLastHour();
+$numberEventsToday = getNumberEventsToday();
+
 insertCacheRequestStoLastDay();
 deleteCacheRequestLastDay();
 
-if ($numberCacheRequestLastHour > 0 || $numberOsmRequestLastHour > 0) {
+if ($numberCacheRequestLastHour > 0 || $numberOsmRequestLastHour > 0 || $numberEventsLastHour > 0) {
     //DEVO INVIARE LA NOTIFICA
     $testo = " <b>Statistiche ultimi 60 minuti</b>
 
 - Richieste OSM: <b>" . $numberOsmRequestLastHour . "</b>
 - Richieste cache: <b>" . $numberCacheRequestLastHour . "</b>
+- Eventi: <b>" . $numberEventsLastHour . "</b>
 
 <b>Statistiche del " . date("d/m/Y") . "</b>
     
 - Richieste OSM: <b>" . $numberOsmRequestToday . "</b>
-- Richieste cache: <b>" . $numberCacheRequestToday . "</b>";
+- Richieste cache: <b>" . $numberCacheRequestToday . "</b>
+- Eventi: <b>" . $numberEventsToday . "</b>";
 
     inviaNotificaTelegram($testo);
 }
